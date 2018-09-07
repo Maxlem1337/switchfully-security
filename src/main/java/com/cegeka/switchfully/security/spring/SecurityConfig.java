@@ -1,7 +1,9 @@
 package com.cegeka.switchfully.security.spring;
 
+import com.cegeka.switchfully.security.external.criminalrecord.CriminalRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,11 +24,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationEntryPoint authEntryPoint;
     @Autowired
     private ArmyAuthenticationProvider armyAuthenticationProvider;
+    @Autowired
+    private CriminalRecordService criminalRecordService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST,"/armies/promote/{name}").access("@criminalRecordService.hasCriminalRecord(#name).offenses.empty")
+                .and()
                 //One way to fix the authorisation problem is using the 'antmatchers' methods to force users to have certain role(s) if they want to access a certain endpoint
                 //advantage: able to secure multiple, similar url's at the same time
                 //disadvantage: this code is completely decoupled from the Rest-controller code. This makes it easy to forget to adjust it when e.g. adding a new rest-call
@@ -39,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().httpBasic()
                 .authenticationEntryPoint(authEntryPoint);
+
     }
 
     @Autowired
