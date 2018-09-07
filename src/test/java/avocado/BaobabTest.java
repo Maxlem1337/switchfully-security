@@ -218,4 +218,144 @@ public class BaobabTest extends RestAssuredTest {
                 .assertThat()
                 .statusCode(FORBIDDEN.value());
     }
+
+    @Test
+    public void getTanksInfo(){
+        //CIVILIAN
+        givenRequestForUser("ZWANETTA", "WORST")
+                .when()
+                .get(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(OK.value());
+
+        //PRIVATE
+        givenRequestForUser("JMILLER", "THANKS")
+                .when()
+                .get(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(OK.value());
+
+        //HUMAN_RELATIONSHIPS
+        givenRequestForUser("UNCLE", "SAM")
+                .when()
+                .get(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(FORBIDDEN.value());
+
+        //GENERAL
+        givenRequestForUser("GENNY", "RALLY")
+                .when()
+                .get(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(OK.value());
+    }
+
+    @Test
+    public void addTanks(){
+        //CIVILIAN
+        givenRequestForUser("ZWANETTA", "WORST")
+                .when()
+                .post(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(FORBIDDEN.value());
+
+        //PRIVATE
+        givenRequestForUser("JMILLER", "THANKS")
+                .when()
+                .post(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(OK.value());
+
+        //HUMAN_RELATIONSHIPS
+        givenRequestForUser("UNCLE", "SAM")
+                .when()
+                .post(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(FORBIDDEN.value());
+
+        //GENERAL
+        givenRequestForUser("GENNY", "RALLY")
+                .when()
+                .post(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(FORBIDDEN.value());
+    }
+
+    @Test
+    public void blowUpTanksAndEnjoyTheFireworks(){
+        //CIVILIAN
+        givenRequestForUser("ZWANETTA", "WORST")
+                .when()
+                .delete(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(FORBIDDEN.value());
+
+        //PRIVATE
+        givenRequestForUser("JMILLER", "THANKS")
+                .when()
+                .delete(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(FORBIDDEN.value());
+
+        //HUMAN_RELATIONSHIPS
+        givenRequestForUser("UNCLE", "SAM")
+                .when()
+                .delete(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(FORBIDDEN.value());
+
+        //GENERAL
+        givenRequestForUser("GENNY", "RALLY")
+                .when()
+                .delete(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(OK.value());
+    }
+
+    @Test
+    public void addNewTanks(){
+        //CIVILIAN
+        givenRequestForUser("ZWANETTA", "WORST")
+                .when()
+                .put(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(FORBIDDEN.value());
+
+        //PRIVATE
+        givenRequestForUser("JMILLER", "THANKS")
+                .when()
+                .put(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(OK.value());
+
+        //HUMAN_RELATIONSHIPS
+        givenRequestForUser("UNCLE", "SAM")
+                .when()
+                .put(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(FORBIDDEN.value());
+
+        //GENERAL
+        givenRequestForUser("GENNY", "RALLY")
+                .when()
+                .put(ArmyResource.ARMY_RESOURCE_PATH + "/tanks")
+                .then()
+                .assertThat()
+                .statusCode(OK.value());
+    }
 }
