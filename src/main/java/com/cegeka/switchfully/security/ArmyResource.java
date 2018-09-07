@@ -12,6 +12,10 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class ArmyResource {
 
     public static final String ARMY_RESOURCE_PATH = "/armies";
+    public static final String ARMY_NUKE_PATH = ARMY_RESOURCE_PATH + "/nuke";
+    public static final String ARMY_JOIN_PATH = ARMY_RESOURCE_PATH + "";
+    public static final String ARMY_PROMOTE_PRIVATE_PATH = ARMY_RESOURCE_PATH + "/promote";
+    public static final String ARMY_DISCHARGE_SOLDIER_PATH = ARMY_RESOURCE_PATH + "/discharge";
 
     @RequestMapping(method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE ,path = "/{country}")
     public ArmyInfoDto getDeployedArmyInfo(@PathVariable(value = "country") String country){
