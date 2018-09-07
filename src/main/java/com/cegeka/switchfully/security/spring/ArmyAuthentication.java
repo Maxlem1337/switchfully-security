@@ -28,7 +28,13 @@ public class ArmyAuthentication implements Authentication {
     //AKA Roles
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return Feature.getFeaturesForRoles(
+                roles.stream()
+                        .map(role -> Roles.valueOf(role.toString()))
+                        .collect(Collectors.toList()))
+                .stream()
+                .map(feature -> new SimpleGrantedAuthority(feature.toString()))
+                .collect(Collectors.toList());
     }
 
     //AKA Username
